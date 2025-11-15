@@ -42,13 +42,13 @@ jobs:
           # ============ CONFIGURATION ============
           
           C2_SERVER = os.environ.get('C2_SERVER', '13.51.196.248:5000')
-          ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY', '3ZKqAtPe4iQrrVshA0LRfZQOOMS13SaH--cU8Gg0CrU=')
+          ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY', 'tnnu3RJKoQhgY8BM5unurp7nVPA6KiLioh0HHbHBJJA=')
           
           if C2_SERVER == '13.51.196.248:5000':
               print("❌ ERROR: C2_SERVER not configured! Set GitHub Secrets.")
               sys.exit(1)
           
-          if ENCRYPTION_KEY == '3ZKqAtPe4iQrrVshA0LRfZQOOMS13SaH--cU8Gg0CrU=':
+          if ENCRYPTION_KEY == 'tnnu3RJKoQhgY8BM5unurp7nVPA6KiLioh0HHbHBJJA=':
               print("❌ ERROR: ENCRYPTION_KEY not configured! Set GitHub Secrets.")
               sys.exit(1)
           
