@@ -187,8 +187,8 @@ jobs:
               global stats
               target = command.get('target')
               method = command.get('method', 'http')
-              duration = command.get('duration', 60)
-              rate = command.get('rate', 100)
+              duration = int(command.get('duration', 60))  # Convert to int
+              rate = int(command.get('rate', 100))  # Convert to int
               stats['status'] = 'attacking'
               print(f"⚡ Attack started: {method.upper()} → {target}")
               
